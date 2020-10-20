@@ -3,9 +3,9 @@
 <head>
 	<title>Desemprego no Brasil (briefing)</title>
 
-	<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
-	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega@5.16.1"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.16.8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
 
 	<style type="text/css" media="screen">
 		body {
@@ -148,7 +148,7 @@ write.csv(ForcaTrabalho_wide, "C:\\Users\\fhann\\Desktop\\Fernando\\Para Apple\\
 	<div id="vis"></div>
 
 	<script type="text/javascript">
-		var spec = "https://github.com/fehann/VisEMAp2020Trabalho/blob/main/scatterall.json";
+		var spec = "https://github.com/fehann/VisEMAp2020Trabalho/blob/main/vega/scatterall.json";
 	  vegaEmbed('#vis', spec).then(function(result) {
 	    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
 	  }).catch(console.error);
