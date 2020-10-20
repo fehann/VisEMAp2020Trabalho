@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Desemprego no Brasil (briefing)</title>
+
+	<script src="https://cdn.jsdelivr.net/npm/vega@5.16.1"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.16.8"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.12.2"></script>
+
+	<style type="text/css" media="screen">
+		body {
+			line-height: 140%;
+			margin: 50px;
+			width: 850px;
+		}
+		code {font-size: 120%;}
+		pre code {
+			background-color: #eee;
+			border: 1px solid #999;
+			display: block;
+			padding: 20px;
+		}
+	</style>
+</head>
+
+<body>
+	<h1 id="main-heading"> Desemprego no Brasil (briefing)</h1>
+	<h3>Fernando Hannaka - 21 de outburo de 2020</h3>
+
+	<svg height="10" width="850">
+	  <line x1="0" y1="0" x2="850" y2="0" style="stroke:rgb(169,169,169);stroke-width:5" />
+	</svg>
+
+	<br><h2>Introdução</h2>
+
+	Este documento é o briefing do trabalho do curso de Visualização da Informação da FGV-EMAp. O dado escolhido para criar as visualizações foi a taxa de desemprego no Brasil.
+
+	<br>
+	<br><h2>Aquisição de dados</h2>
+
+	Sobre a situação de trabalho no Brasil, a Pesquisa Nacional por Amostra de Domicílios Contínua - PNAD Contínua do IBGE fornece dados desde 2012. A taxa de desemprego refere-se a desocupação, isto é, ao percentual de pessoas ativas na força de trabalho que não estão empregadas por pelo menos 40h semanais. Pessoas que não trabalham mas que não estão a procura de emprego não são consideradas no cálculo (<a href="https://www.ibge.gov.br/explica/desemprego.php">https://www.ibge.gov.br/explica/desemprego.php</a> e <a href="https://editalconcursosbrasil.com.br/blog/economia_desemprego-no-brasil/">https://editalconcursosbrasil.com.br/blog/economia_desemprego-no-brasil/</a>).
+
+	<h3 style="color:gray;">Pesquisa</h3>
+
+	O site do IBGE fornece algumas visualizações dos dados de taxa de desemprego porém não é possível realizar a comparação pelo tempo e por estados/regiões. Seguem exemplos abaixo:
+
+	<br>
+	<br><canvas id="canvas" width="0" height="0"></canvas>
+	<img id="ibge1" width="800" src="img/IBGE pizza.PNG">
+	<br><i>Figura 1 - Gráfico de pizza</i>
+
+	<br>
+	<br><canvas id="canvas" width="0" height="0"></canvas>
+	<img id="ibge2" width="800" src="img/IBGE linha.PNG">
+	<br><i>Figura 2 - Gráfico de linha</i>
+
+	<br>
+	<br><canvas id="canvas" width="0" height="0"></canvas>
+	<img id="ibge3" width="800" src="img/IBGE mapa.PNG">
+	<br><i>Figura 3 - Cartograma</i>
+
+	<br>
+	<br>A inspiração para a visualização que desejo fazer é o mapa de calor criado pelo The Wall Street Journal que mostra o impacto da vacina para doenças infecciosas no século 20, <a href="http://graphics.wsj.com/infectious-diseases-and-vaccines/?mc_cid=711ddeb86e">http://graphics.wsj.com/infectious-diseases-and-vaccines/?mc_cid=711ddeb86e</a>, a exemplo da figura abaixo.
+
+	<br>
+	<br><canvas id="canvas" width="0" height="0"></canvas>
+	<img id="ibge3" width="800" src="img/wsj.PNG">
+	<br><i>Figura 4 - Mapa de calor</i>
+
+	<h3 style="color:gray;">Metodologia de coleta</h3>
+
+	Os dados de desocupação podem ser obtidos de diferentes tabelas no Sistema IBGE de Recuperação Automática - SIDRA. Seguem duas tabelas que podem ser utilizadas:
+	<br>
+	<br><b>Tabela 4093</b> - Pessoas de 14 anos ou mais de idade, total, na força de trabalho, ocupadas, desocupadas, fora da força de trabalho, e respectivas taxas e níveis, por sexo (<a href="https://sidra.ibge.gov.br/tabela/4093">https://sidra.ibge.gov.br/tabela/4093</a>) - esta tabela exibe a taxa de desocupados já calculada e o número total da força de trabalho.
+	<br>
+	<br><b>Tabela 4092</b> - Pessoas de 14 anos ou mais de idade, por condição em relação à força de trabalho e condição de ocupação (<a href="https://sidra.ibge.gov.br/tabela/4092">https://sidra.ibge.gov.br/tabela/4092</a>) - esta tabela mostra os dados brutos da força de trabalho (total, ocupada e desocupada) porém sem o cálculo da taxa de desocupados.
+	<br>
+	<br>Para fins deste trabalho foi utilizada a tabela 4092 pois contem os dados exatos em termos de quantidade e a taxa de desemprego pode ser calculada a partir dos números disponíveis. Visando a reproducibilidade foi utilizado o pacote sidrar do R para extração dos dados. Segue código abaixo:
+
+<pre><code>library(dplyr)
+library(tidyr)
+library(sidrar)
+
+# Get data - https://sidra.ibge.gov.br/tabela/4092
+ForcaTrabalho <- get_sidra(api = '/t/4092/n1/all/n2/all/n3/all/v/1641/p/all/c629/32385,32386,
+	32387,32446')
+
+# Add unemployed percentage
+ForcaTrabalho_wide <- ForcaTrabalho %>%
+	select(-'Condição em relação à força de trabalho e condição de ocupação (Código)') %>%
+	spread('Condição em relação à força de trabalho e condição de ocupação', Valor) %>%
+	mutate(PercentualDesocupapdo = `Força de trabalho - desocupada` / `Força de trabalho`)
+
+# Export data to csv
+write.csv(ForcaTrabalho_wide, "C:\\Users\\fhann\\Desktop\\Fernando\\Para Apple\\FGV\\
+	Trabalho final\\01 Dados\\PNAD\\ForcaTrabalho.csv", row.names = FALSE)
+</code></pre>
+
+	Os valores de desocupação foi comparada com os valores da tabela 4093 e verificou-se que são os mesmos.
+
+	<br>
+	<br><h2>Familiarização com os dados</h2>
+
+	O primeiro passo foi importar os dados para o notebook já que a visualização será realizada usando Altair no Python.
+
+	<h3 style="color:gray;">Propriedades físicas</h3>
+
+	Abaixo estão os dados iniciais, já com a coluna do percentual de desocupação. Durante a importação dos dados, a coluna "Trimestre (Código)" foi explicitamente importada como string para utilização durante a fase de exploração e modelagem.
+
+	<br>
+	<br><canvas id="canvas" width="0" height="0"></canvas>
+	<img id="ibge4" width="800" src="img/Desocupacao.PNG">
+	<br><i>Figura 5 - Dados</i>
+
+	<br>
+	<br>Os dados estão ordenados de forma arrumada (tidy), pronto para uso de forma geral. Algumas colunas podem ser criadas para facilitar diferentes formas de visualizações dos dados, por exemplo comparar trimestres ou anos. Também será necessário agregar dados para agrupar os estados em regiões.
+
+	<br>
+	<br><h2>Transformação dos dados</h2>
+
+	Os dados originais tiveram uma transformação inicial com a criação do percentual de desocupados conforme apresentado no código em R. Porém para possibilitar flexibilidade na visualização dos dados também é necessária transformações apresentadas a seguir.
+
+	<h3 style="color:gray;">Limpeza</h3>
+
+	Os dados originais já vieram limpos, sem necessidade de nenhuma ação neste sentido.
+
+	<h3 style="color:gray;">Conversão e Criação</h3>
+
+	Além de converter a quantidade de desocupados em percentual (taxa de desemprego), também foi necessário a decomposição da coluna "Trimestre" em número do trimestre (nome da coluna "NumTrimestre) e ano (nome da coluna "Ano").
+
+	<h3 style="color:gray;">Consolidação</h3>
+
+	A única informação não disponível nos dados originais era a qual região cada estado pertence. Apesar desta questão ser fácil de resolver manualmente designando a região correspondente a cada estado, para fins de reproducibilidade, foram extraídos os dados do site do IBGE <a href="https://sidra.ibge.gov.br/territorio">https://sidra.ibge.gov.br/territorio</a> e tratados antes de consolidar com a tabela principal dos dados. Foram agreagadas as colunas "Grande Região" e "Grande Região (Código)".
+
+	<br>
+	<br><h2>Exploração dos dados</h2>
+
+	Com o objetivo de entender melhor os dados, a seguir são apresentadas as diferentes representações que servem de inspiração para a criação da visualização final. A obtenção de insights possibilita encontrar a visualização mais apropriada para estes dados.
+
+	<br>
+	<br>Esta etapa de exploração também tem o objetivo de familizarizar com a nova ferramenta que estou aprendendo, o Altair do Python. Esta exploração auxilia em entender a sintase da linguagem, assim como os recursos disponíveis na ferramenta. O notebook utilizado para este trabalho encontra-se no seguinte link <a href="https://colab.research.google.com/drive/1Tn0c80SpVOteGG0TKHfAVj8SprJkVJ-k?usp=sharing">https://colab.research.google.com/drive/1Tn0c80SpVOteGG0TKHfAVj8SprJkVJ-k?usp=sharing</a>.
+
+	<br>
+	<br><h3 style="color:gray;">Todas as categorias</h3>
+
+	A primeira exploração foi visualizar os dados conforme as categorias apresentadas nos dados originais: Brasil, Grande Região e Unidade da Federação. Foi utilizado o gráfico de dispersão e gráfico de linhas ao longo do tempo. É possível notar um aumento no percentual de desocupação ao longo do tempo mas também há uma flutuação da taxa por estágio.
+
+	<div id="vis"></div>
+
+	<script type="text/javascript">
+		var spec = "https://github.com/fehann/VisEMAp2020Trabalho/blob/main/scatterall.json";
+	  vegaEmbed('#vis', spec).then(function(result) {
+	    // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
+	  }).catch(console.error);
+	</script>
+
+
+	<br>
+	<br><h3 style="color:gray;">Agrupamento por região</h3>
+
+	A segunda exploração foi o agrupamento por região também usando gráfico de dispersão e gráfico de linha, assim como a combinação entre eles. Também foi testado o gráfico de dispersão com o tamanho dos círculos variando de acordo com a quantidade de desocupados por estado. Nesta análise é possível identificar que estados da mesma região normalmente tem taxa de desemprego próximas.
+
+
+	<br>
+	<br><h3 style="color:gray;">Interatividade da ferramenta</h3>
+
+	Finalmente, a fim de aprender mais sobre a interatividade das visualizações em Altair, foi testado o recurso de seleção para salientar uma série de dados selecionados, deixando os dados não selecionados de forma opaca, em cor cinza.
+
+
+	<br>
+	<br><h2>Próximos Passos</h2>
+
+	Durante a exploração foi possível notar os seguintes pontos:
+
+	<ol>
+  <li>Aumento da taxa de desemprego ao longo do tempo.</li>
+  <li>Flutuação da taxa em diferentes estágios.</li>
+  <li>Estados da mesma região tem taxa de desemprego similares.</li>
+	<li>O Altair permite um nível de interatividade onde é possível ver o todo mas também salientar somente o que interessa no momento.</li>
+	</ol>
+
+	<br>
+	<br>Diante dos pontos levantados a seguir os próximos passos são de plotar os dados em um mapa de calor, a exemplo do gráfico do The Wall Street Journal, verificar se os dados de taxa de desemprego no Brasil são adequados para identificar padrões e aperfeiçoar a visualização com maior recursos de interatividade.
+
+</body>
+</html>
