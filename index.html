@@ -24,13 +24,19 @@
 		.error {
         color: red;
     }
+		form.vega-bindings {
+		  position: absolute;
+		  right: 568px;
+		  top: 63px;
+			font-size:70%;
+			font-family: Arial;
+		}
 	</style>
 </head>
 
 <body>
 	<h1 id="main-heading"> Desemprego no Brasil</h1>
 	<h3>Fernando Hannaka - 2 de dezembro de 2020</h3>
-	Esta página está disponível no site <a href="https://fehann.github.io/VisEMAp2020Trabalho/">https://fehann.github.io/VisEMAp2020Trabalho/</a>
 
 	<svg height="10" width="850">
 	  <line x1="0" y1="0" x2="850" y2="0" style="stroke:rgb(169,169,169);stroke-width:5" />
@@ -232,7 +238,7 @@ write.csv(ForcaTrabalho_wide, "C:\\Users\\fhann\\Desktop\\Fernando\\Para Apple\\
 	Visto que a visualização da taxa de desemprego não gerou muitos insights, foram repensados dois aspectos que poderiam tornar a visualização mais coerente e atrativa para análise.
 
 	<ol>
-		<li><b>Média móvel da taxa de desemprego:</b> a fim de suavizar flutuações de curto prazo, levar em consideração efeitos de sasonalidade e destacar tendências de longo prazo, foram computadas as médias móveis baseado no período de um ano, isto é, 4 trimestres.</li>
+		<li><b>Média móvel da taxa de desemprego:</b> a fim de suavizar flutuações de curto prazo, levar em consideração efeitos de sasonalidade e destacar tendências de longo prazo, foram computadas as médias móveis baseado no período de um ano, isto é, 4 trimestres. Trata-se de um indicador mais "lento" mas que pode ser mais robusto para análise exploratória.</li>
 
 	<br><canvas id="canvas" width="0" height="0"></canvas>
 	<img id="lineallmovel" width="800" src="vega\lineallmovel.svg">
@@ -240,45 +246,115 @@ write.csv(ForcaTrabalho_wide, "C:\\Users\\fhann\\Desktop\\Fernando\\Para Apple\\
 	<br>
 	<br>
 
-		<li><b>Variação trimestral da taxa de desemprego:</b> dado que o aumento da taxa de desemprego ao longo dos anos não é novidade, um dos fatores que possibilita o entendimento da situação do desemprego a cada momento é visualizar a variação da taxa de desemprego (média móvel) de um trimestre para o outro. Desta forma é possível perceber um aumento ou declínio na taxa.</li>
+		<li><b>Variação trimestral da taxa de desemprego:</b> dado que o aumento da taxa de desemprego ao longo dos anos não é novidade, um dos fatores que possibilita o entendimento da situação do desemprego a cada momento é visualizar a diferença da taxa de desemprego (média móvel) de um trimestre para o outro. Desta forma é possível perceber um aumento ou declínio na taxa.</li>
 	</ol>
 
 	<br>
-	<div class="vega-visualization" id="vega-visualization-bcc4b024fd684fdda9794cc8ea6eea00"></div>
+	<div class="vega-visualization" id="vega-visualization-3fd3ab42d36e4d41bc18e5f362133b4e"></div>
 	<script type="text/javascript" src = "html/chartfinal.js"></script>
 	<br><i>Figura 15 - Gráfico final do trabalho</i>
 
 	<br>
 	<br><h2>Escolhas Gráficas</h2>
 
-	<br>
-	<br><h3 style="color:gray;">Representação dos Dados</h3>
-
-	<br>
-	<br><h3 style="color:gray;">Interatividade</h3>
-
-	<br>
-	<br><h3 style="color:gray;">Anotações</h3>
-
-	<br>
-	<br><h3 style="color:gray;">Cores</h3>
-
-	<br>
-	<br><h3 style="color:gray;">Composição</h3>
-
-	<br>
-	<br><h2>Conclusão</h2>
-
-	Durante a exploração foi possível notar os seguintes pontos:
+	O tipo de gráfico selecionado foi um mapa de calor, heatmap, que é capaz de representar várias categorias, estados brasileiros, para um mesmo dado numérico, taxa de desemprego. Este tipo de representação permite seguir o mantra de visualização da informação segundo Shneiderman:
 
 	<ol>
-  <li>Aumento da taxa de desemprego ao longo do tempo.</li>
-  <li>Flutuação da taxa em diferentes estágios.</li>
-  <li>Estados da mesma região tem taxa de desemprego similares.</li>
-	<li>O Altair permite um nível de interatividade onde é possível ver o todo mas também salientar somente o que interessa no momento.</li>
+		<li><b>Overview:</b> uma visão geral da situação em todo o país em diversos momento no tempo,</li>
+		<li><b>Zoom:</b> é possível focar em um estado assim como período para todos os estados,</li>
+		<li><b>Filter:</b> o menu de seleção acima do gráfico permite ver os estados por regiões,</li>
+		<li><b>Details on-demand:</b> e finalmente o recurso de tootip mostra os detalhes para cada ponto no gráfico.</li>
 	</ol>
 
-	Diante dos pontos levantados a seguir os próximos passos são de plotar os dados em um mapa de calor, a exemplo do gráfico do The Wall Street Journal, verificar se os dados de taxa de desemprego no Brasil são adequados para identificar padrões e aperfeiçoar a visualização com maior recursos de interatividade.
+	Foi incluso um gráfico auxiliar à direita para mostrar a média da taxa de desemprego por estado, a qual foi utilizada para ordenar os estados, de cima para baixo, do maior para o menor. Este gráfico visa auxiliar em visualizar a faixa de taxa de desemprego durante os anos, complementando assim a informação do mapa de calor.
+
+	<br><h3 style="color:gray;">Representação dos Dados</h3>
+
+	No mapa de calor os dados são representados por cores e saturação das mesmas. Foi escolhida uma paleta de cores divergentes para facilitar a interpretação de quando a taxa de desemprego aumenta (laranja) e diminiui (azul), sendo que a saturação indica a intensidade em ambos os sentidos. Neste caso o objetivo é mostrar comportamento de forma geral, caso o leitor queira saber mais detalhes pode utilizar o tooltip para visualizar os dados exatos de cada ponto.
+
+	<br>
+	<br>No gráfico auxiliar os dados foram representados por pontos com posicionamento em relação ao eixo x. A barra de erro em cada ponto representa o desvio padrão da taxa de desemprego que visualmente mostra ao leitor a faixa significativa dos valores para cada estado.
+
+	<br><h3 style="color:gray;">Interatividade</h3>
+
+	O uso do Altair como ferramenta para criação da visualização foi fundamental para permitir a interatividade. O recurso do tooltip permite visualizar os dados pontualmente quando o leitor quiser mais detalhes. O filtro através de seleção permite destacar os grupos desejados, neste caso forma os estados de cada região. Este filtro é aplicado ao gráfico principal assim como o auxiliar para focar a análise em grupos separadamente em busca de tendências, padrões e outliers. Os estados que não estão na região selecionada são transformado na cor cinza.
+
+	<br><h3 style="color:gray;">Anotações</h3>
+
+	Para o eixo y foram utilizados os nomes completos dos estados a fim de clareza já que este tipo de visualização permite textos mais longos. A escolha do eixo vertical aparecer nos dois gráficos, principal e auxiliar, foi para auxiliar na leitura já que cada linha do mapa de calor é extensa. Quanto ao texto do eixo x foi reduzido ao máximo, sem comprometer o entendimento, já que a orientação do texto está na vertical, portanto mais difícil a leitura de textos longos.
+	<br>
+	<br>No título do gráfico principal foi colocado TD entre parênteses para abreviar taxa de desemprego para que esta abreviação fosse usada no título do gráfico auxiliar já que a largura é menor. Para o tílulo do selecionador foi escolhido um comando, "Selecione região", para o leitor perceber que é possível interagir com esse filtro. Infelizmente a ferramenta coloca automaticamente um traço inferior (underline) entre uma palavra e outra e também não aceita acentos.
+	<br>
+	<br>O título foi elaborado para atrair o leitor para o gráfico, já enfatizando o dado que o gráfico representa e a correlação com as crises, para direcionar a leitura. No subtítlo foi dado mais detalhes e uma curiosidade, sobre Roraima, para atrair o leitor a engajar com o gráfico e facilitar o entendimento no primeiro momento. No segundo subtítulo foram explicadas as variáveis e devido a limitação da ferramenta, também foi adicionado a fonte dos dados que normalmente é no rodapé do gráfico.
+	<br>
+	<br>Finalmente, no mapa de calor também foram inclusas duas marcações para servir de referência na leitura do gráfico. A marcação horizontal foi uma linha tracejada bem leve para média do Brasil que serve como referência para ver os estados que estão acima ou abaixo da média nacional. A marcação vertical encontra-se no 1o trimestre de 2020 que foi quando foi decretada a pandemia pela Organização Mundial da Saúde (OMS) da ONU em 11 de março de 2020. Esta marcação foi colocada em cor vermelha, assim como o texto indicando que a linha refere-se ao início da pandemia.
+
+	<br><h3 style="color:gray;">Cores</h3>
+
+	A escolha de uma paleta divergente foi para evidenciar uma mudança, aumento e diminuição como descrito anteriormente. Foram adotadas cores contrastantes para enfatizar esta divergência, onde normalmente o azul é associado a frio e menos e o laranja mais a quente e alto. Estas cores também são inclusiva para aqueles que tem habilidade reduzida para distinguir entre cores.
+	<br>
+	<br>As cores do título e subtítulo seguiram as cores da paleta do mapa de calor a fim de evidenciar uma associação entre o gráfico e o títlulo. O gráfico auxiliar foi mantido na cor preta para não distrair o leitor da visualização principal.
+
+	<br><h3 style="color:gray;">Composição</h3>
+
+	Quanto a composição da visualização optou-se por um título e subtítulo geral, que se refere tanto ao gráfico principal quanto ao auxiliar, na parte superior.
+	<br>
+	<br>O gráfico principal, o mapa de calor, foi posicionado do lado esquerdo já que no ocidente a leitura é da esquerda para a direita portanto dando ênfase a este gráfico no primeiro momento. A legenda inicialmente foi fixada do lado direito, porém com a inclusão do gráfico auxiliar no lado direita, a legenda foi transferida para a esquerda.
+	<br>
+	<br>Finalmente o menu selecionador das regiões foi disposto entre o subtítulo e o gráfico principal para ser facilmente visível no início da leitura da visualização.
+
+	<br>
+	<br><h2>Validação</h2>
+
+	Durante o curso a professora e os colegas apoiaram na análise da visualização com comentários e sugestões que permitiram a evolução continua do trabalho. Com a base teórica ao longo do curso foi possível analisar e ver soluções de outras pessoas que auxiliaram na análise crítica e criatividade.
+	<br>
+	<br>Para o processo de validação optou-se pela análise qualitativa de pessoas com o perfil do público alvo desta visualização e experts em áreas correlatas. O número adequada do feedback para visualizações praticado normalmente tem sido sete. Esta visualização portanto foi submetida para sete pessoas com as seguintes qualificações:
+	<br>
+	<br>
+  <li>3 economistas,</li>
+  <li>2 engenheiros,</li>
+  <li>1 contadora,</li>
+	<li>1 designer.</li>
+
+	<br>De modo geral os economistas foram cruciais analisar as taxas utilizadas e a forma de cálculo da média para entender potenciais aplicações. Também deram feedback sobre interpretação e usabilidade que foram importantes para adequar as anotações. Os engenheiros e contadora comentaram mais sobre a experiência do usuário e potencialidades do uso da visualização. O designer foi importante entender melhores formas de formatar e compor a visualização de forma mais intuitiva.
+	<br>
+	<br>As principais descobertas no processo de validação foram:
+	<ol>
+		<li>Indicador utilizado é um indicador "lento", que mostra tendência a longo prazo. O indicador utilizado foi a média móvel simples. Para fins deste trabalho foi mantido este indicador.</li>
+		<li>Inicialmente foi usado termo "variação trimestral" no título do mapa de calor, o que não causou muita dúvida, principalmente dos economistas. Porém para ficar ainda mais claro o que o dado se refere, este termo foi substituído por "diferença entre trimestres" para tornar mais direta e rápida a compreensão.</li>
+		<li>Uma dos observações foi em relação à legenda que o máximo do valor negativo não era o mesmo do máximo do valor position pois foi utilizada a configuração padrão da ferramenta. A alteração para colocar o valor máximo negativo e positivo o mesmo não foi só para uniformizar a legenda mas também tornou zero o ponto de divergência das cores, algo que era esperado mas foi somente detectado por acaso por uma pessoa.
+		<li>Apesar da existência do gráfico auxiliar, muitos tiveram dificuldade em notar rapidamente que o ordenamento era conforme a média da taxa de desemprego por estado. Uma primeira alteração foi inverter o ordenamento para descendente pois desta forma fica coerente se referir aos estados que estão posicionados acima da média nacional estarem acima do item Brasil. Além disso, foi adicionado no subtítulo que Amapá é o estado que tem a maior média da taxa de desemprego no país, chamando a atenção para o motivo de aparecer primeiro e portanto deduzir que os demais estão na ordem descrescente.</li>
+		<li>Praticamente todos não identificaram o menu seletor mesmo depois que o título foi alterado para um comando "Clique na região". Este menu ficava no lado direito e era uma lista com o nome das região porém não havia um indicativo claro de interação. A solução foi alterar para um seletor em formato de botões de rádio, radio buttons, que os leitores estão mais acostumados. Um desafio, porém, foi que o Altair adiciona este seletor abaixo do gráfico que não fica acessível, o leitor provavelmente nem notaria. Não existe comando na ferramenta para alterar isso portanto a solução foi alterar o HTML para reposicioná-lo para o topo do gráfico inserindo o seguinte código:</li>
+
+		<pre><code># Código HTML para reposicionar seletor colocado dentro do tag: style
+
+form.vega-bindings {
+position: absolute;
+right: 630px;
+top: 63px;
+font-size:70%;
+font-family: Arial;
+}
+		</code></pre>
+	</ol>
+
+	<br><h2>Conclusão</h2>
+
+	Este trabalho foi fundamental para aplicação teórica dos conceitos apresentados em sala de aula com um objetivo pessoal que fez com que a experiência fosse ainda mais enriquecedora. A troca de feedback dentro e fora da sala de aula ajudou a ver na prática a eficácia das escolhas gráficas. Passar por todo o processo de criação e análise permitiu oportunidades de aprendizados com erros e acertos.
+	<br>
+	<br>Esta visualização teve um objetivo mais geral e exploratório. Em futuros trabalhos o desafio será adequar a visualização para objetivos específicos dependendo da linha editorial escolhida. É possível a aplicação por exemplo de indicadores mais ágeis para serem utilizados para previsão e tomada de decisão, por exemplo através do uso de média móvel exponencial ao invés da simples aplicada neste trabalho. Outro desafio é melhorar a experiência do leitor da visualização através de objetos gráficos mais intuitivos que permitam ao leitor explorar o máximo da visualização.
+	<br>
+	<br>Por fim, gostaria de agradecer a professora Asla por todo o compartilhamento do conhecimento e disponibilidade, assim como todos os colegas do curso. Também agradeço às sete pessoas que me auxiliaram na avaliação da visualização e a minha esposa e filha por me apoiarem nesta disciplina.
+	<br>
+	<br>Caso queiram entrar em contato comigo, disponibilizo aqui <a href="fhannaka@hotmail.com">meu email</a> e <a href="www.linkedin.com/in/fernandohannaka">perfil do LinkedIn</a>. Muito obrigado e espero que este trabalho sirva de inspiração e aprendizado.
+	<br>
+	<br>
+
+	<svg height="10" width="850">
+	  <line x1="0" y1="0" x2="850" y2="0" style="stroke:rgb(169,169,169);stroke-width:5" />
+	</svg>
+
+	Esta página, imagens e códigos estão disponíveis no site <a href="https://fehann.github.io/VisEMAp2020Trabalho/">https://fehann.github.io/VisEMAp2020Trabalho/</a>
 
 </body>
 </html>
