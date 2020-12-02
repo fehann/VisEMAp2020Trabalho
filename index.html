@@ -238,21 +238,31 @@ write.csv(ForcaTrabalho_wide, "C:\\Users\\fhann\\Desktop\\Fernando\\Para Apple\\
 	Visto que a visualização da taxa de desemprego não gerou muitos insights, foram repensados dois aspectos que poderiam tornar a visualização mais coerente e atrativa para análise.
 
 	<ol>
-		<li><b>Média móvel da taxa de desemprego:</b> a fim de suavizar flutuações de curto prazo, levar em consideração efeitos de sasonalidade e destacar tendências de longo prazo, foram computadas as médias móveis baseado no período de um ano, isto é, 4 trimestres. Trata-se de um indicador mais "lento" mas que pode ser mais robusto para análise exploratória.</li>
+		<li><b>Variação trimestral da taxa de desemprego:</b> dado que o aumento da taxa de desemprego ao longo dos anos não é novidade, um dos fatores que possibilita o entendimento da situação do desemprego a cada momento é visualizar a diferença da taxa de desemprego de um trimestre para o outro. Desta forma é possível perceber um aumento ou declínio na taxa conforme apresentado na figura abaixo. Apesar desta alteração, ainda não é possível visualizar tendências relevantes.</li>
+
+	<br><canvas id="canvas" width="0" height="0"></canvas>
+	<img id="heatmap" width="800" src="vega\heatmap.svg">
+	<br><i>Figura 14 - Diferença entre trimestres da taxa de desemprego</i>
+	<br>
+	<br>
+
+		<li><b>Média móvel da taxa de desemprego:</b> a solução para permitir visualização de tendências utilizando a diferença da taxa de desemprego entre trimestres foi calcular a média móvel, que suaviza flutuações de curto prazo, leva em consideração efeitos de sasonalidade e destaca tendências de longo prazo. Foi utilizada uma média móvel simples baseada no período de um ano, isto é, 4 trimestres. Trata-se de um indicador mais "lento" mas que pode ser mais robusto para análise exploratória.</li>
 
 	<br><canvas id="canvas" width="0" height="0"></canvas>
 	<img id="lineallmovel" width="800" src="vega\lineallmovel.svg">
-	<br><i>Figura 14 - Média móvel da taxa de desemprego</i>
-	<br>
-	<br>
+	<br><i>Figura 15 - Média móvel da taxa de desemprego</i>
 
-		<li><b>Variação trimestral da taxa de desemprego:</b> dado que o aumento da taxa de desemprego ao longo dos anos não é novidade, um dos fatores que possibilita o entendimento da situação do desemprego a cada momento é visualizar a diferença da taxa de desemprego (média móvel) de um trimestre para o outro. Desta forma é possível perceber um aumento ou declínio na taxa.</li>
 	</ol>
 
+	<br><h3 style="color:gray;">Visualização Final</h3>
+
+	Com as reavaliações implementadas, a <b>visualização final</b> é apresentada a seguir, incluindo perspectiva editorial para o leitor alvo deste trabalho.
+
+	<br>
 	<br>
 	<div class="vega-visualization" id="vega-visualization-3fd3ab42d36e4d41bc18e5f362133b4e"></div>
 	<script type="text/javascript" src = "html/chartfinal.js"></script>
-	<br><i>Figura 15 - Gráfico final do trabalho</i>
+	<br><i>Figura 16 - Gráfico final do trabalho</i>
 
 	<br>
 	<br><h2>Escolhas Gráficas</h2>
@@ -354,7 +364,9 @@ font-family: Arial;
 	  <line x1="0" y1="0" x2="850" y2="0" style="stroke:rgb(169,169,169);stroke-width:5" />
 	</svg>
 
-	Esta página, imagens e códigos estão disponíveis no site <a href="https://fehann.github.io/VisEMAp2020Trabalho/">https://fehann.github.io/VisEMAp2020Trabalho/</a>
+	<li>Esta página está disponível no site <a href="https://fehann.github.io/VisEMAp2020Trabalho/">https://fehann.github.io/VisEMAp2020Trabalho/</a></li>
+	<li>Para ver somente a visualização final clique aqui <a href="https://fehann.github.io/VisEMAp2020Trabalho/html/chartfinal1.html">https://fehann.github.io/VisEMAp2020Trabalho/html/chartfinal1.html</a></li>
+	<li>Todos os arquivos, incluindo notebook, estão disponíveis neste site <a href="https://github.com/fehann/VisEMAp2020Trabalho">https://github.com/fehann/VisEMAp2020Trabalho</a></li>
 
 </body>
 </html>
