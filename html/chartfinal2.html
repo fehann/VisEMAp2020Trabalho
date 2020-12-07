@@ -2,10 +2,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+  <title>Desemprego no Brasil</title>
+
   <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@4.8.1"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-65XVE20QPY"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-65XVE20QPY');
+  </script>
+
 </head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <style>
   form.vega-bindings {
     position: absolute;
@@ -22,5 +37,14 @@
   const embedOpt = {};
   vegaEmbed('#vega-visualization-072f2078011846778badd8cd8cd5b089', spec, embedOpt).catch(console.error);
 </script>
+
+
+<svg height="10" width="850">
+  <line x1="0" y1="0" x2="1400" y2="0" style="stroke:rgb(169,169,169);stroke-width:5" />
+</svg>
+<br>
+Visualização criada por <a href="www.linkedin.com/in/fernandohannaka">Fernando Hannaka</a>, atualizada em 04/12/20200.
+<br>
+<br>
 </body>
 </html>
